@@ -3,6 +3,7 @@ from price_call import PriceCall
 class Transaction:
     
     def __init__(self, params):
+        # validation hash
         self.amountin = params['amount_in'] # receiving amount
         self.currencypair = params['currency_pair']
         self.flipdirection = False #params['direction']  
@@ -12,7 +13,7 @@ class Transaction:
         self.email = params['email']
         #self.emailout = params['email_out']
         self.createtime = datetime.now
-        self.price = self.get_price
+        self.price = params['price']
         if self.flipdirection == False:
             self.amountout = self.amountin * self.price[self.currencypair] # sending amount
         else:
@@ -23,6 +24,7 @@ class Transaction:
     
     def payment_info(self):
         payment_info = {}
+        # validation hash
         payment_info['amount_out'] = self.amountout
         payment_info['currency_pair'] = self.currencypair
         payment_info['receiving_address'] = self.receivingaddress
@@ -39,10 +41,13 @@ class Transaction:
         #payment_info['email_out'] = self.emailout
         return payment_info
                 
-    def get_price(self):
-        callparams = {'currency_pair':self.currencypair}
-        return PriceCall(callparams).prices
-    
-params = {'amount_in':5, 'currency_pair':'dogebtc', 'source_address':'1234', 'receiving_address':'ID', 'destination_address':4321, 'email':g}
+params = {  'amount_in':5, 
+            'currency_pair':'dogebtc',
+            'source_address':'1234',
+            'receiving_address':'ID',
+            'destination_address':4321, 
+            'email':'gg',
+            'price':8})}
 
 trans = Transaction(params)
+print trans.payment_info

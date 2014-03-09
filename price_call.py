@@ -11,6 +11,8 @@ class PriceCall:
         return str(self.price)
     
     def price(self):
+        #check time
+        
         return self.price
     
     def dogebtc(self):

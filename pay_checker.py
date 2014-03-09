@@ -1,6 +1,7 @@
 class PayChecker:
     def __init__(self,params):
         self.startttime = datetime.now
+        self.payments = Queue()
         self.payments = params['transactions']
         self.received = []
         self.not_received = []
