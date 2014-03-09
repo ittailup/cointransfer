@@ -30,9 +30,7 @@ class PriceCall:
                 print str(Exception)
                 continue
         return price
-
+        
 
 price = PriceCall({'currencypair':'dogebtc'})
-
-
 print price
