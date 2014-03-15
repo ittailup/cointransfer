@@ -1,26 +1,37 @@
-from price_call import PriceCall
+#from price_call import PriceCall
+import datetime
+#from pay_checker import PayChecker
 
-class Transaction:
+class Transfer:
     
     def __init__(self, params):
         # validation hash
         self.amountin = params['amount_in'] # receiving amount
+        self.price = params['price']
+        if bool(params['amount_out']): # if 
+            self.amountout = params['amount_out']
+        else:
+            if self.flipdirection == False:
+                self.amountout = self.amountin * self.price[self.currencypair] # sending amount
+            else:
+                self.amountout = self.amountin / self.price[self.currencypair] # sending amount        
+        
         self.currencypair = params['currency_pair']
         self.flipdirection = False #params['direction']  
         self.sourceaddress = params['source_address'] # client address
-        self.receivingaddress = params['receiving_address'] # where we're picking it up from, should be same altcoin as sourceaddress
+        self.receivingaddress = 'DHNMLUAdasGXizBYfXfGQsSo63sPR1dr1r' #self.create_address # where we're picking it up from, should be same altcoin as sourceaddress
         self.destaddress = params['destination_address']
         self.email = params['email']
         #self.emailout = params['email_out']
-        self.createtime = datetime.now
-        self.price = params['price']
-        if self.flipdirection == False:
-            self.amountout = self.amountin * self.price[self.currencypair] # sending amount
-        else:
-            self.amountout = self.amountin / self.price[self.currencypair] # sending amount        
+        self.createtime = datetime.datetime.now
+        self.payment_received = False
     
     def __str__(self):
-        return payment_info()
+        return str(self.payment_info())
+        
+    #def create_address(self, params):
+        
+        
     
     def payment_info(self):
         payment_info = {}
@@ -44,10 +55,10 @@ class Transaction:
 params = {  'amount_in':5, 
             'currency_pair':'dogebtc',
             'source_address':'1234',
-            'receiving_address':'ID',
+            'receiving_address':'DHNMLUAdasGXizBYfXfGQsSo63sPR1dr1r',
             'destination_address':4321, 
             'email':'gg',
-            'price':8})}
+            'price':{'dogebtc':'8'}}
 
-trans = Transaction(params)
-print trans.payment_info
+#trans = Transaction(params).payment_info()
+
