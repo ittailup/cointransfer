@@ -8,16 +8,17 @@ class Transfer:
         # validation hash
         self.amountin = params['amount_in'] # receiving amount
         self.price = params['price']
-        if bool(params['amount_out']): # if 
+        self.currencypair = params['currency_pair']
+        self.sourcecurrency = params['source_currency'] #params['direction']  
+        try:
+            # check for discrepancies
             self.amountout = params['amount_out']
-        else:
-            if self.flipdirection == False:
+        except KeyError:
+            if self.currencypair == False:
                 self.amountout = self.amountin * self.price[self.currencypair] # sending amount
             else:
                 self.amountout = self.amountin / self.price[self.currencypair] # sending amount        
         
-        self.currencypair = params['currency_pair']
-        self.flipdirection = False #params['direction']  
         self.sourceaddress = params['source_address'] # client address
         self.receivingaddress = 'DHNMLUAdasGXizBYfXfGQsSo63sPR1dr1r' #self.create_address # where we're picking it up from, should be same altcoin as sourceaddress
         self.destaddress = params['destination_address']
@@ -36,24 +37,27 @@ class Transfer:
     def payment_info(self):
         payment_info = {}
         # validation hash
+        payment_info['amount_in'] = self.amountin
         payment_info['amount_out'] = self.amountout
         payment_info['currency_pair'] = self.currencypair
         payment_info['receiving_address'] = self.receivingaddress
         payment_info['source'] = self.sourceaddress
         payment_info['destination'] = self.destaddress
         payment_info['email'] = self.email
-        payment_info['pay_order'] = self.flipdirection # if false, first currency is source, second currency is destination
-        if self.flipdirection == False:
+        if self.currencypair[3] == self.sourcecurrency:
             payment_info['dest_currency'] = payment_info['currency_pair'][3:]
             payment_info['source_currency'] = payment_info['currency_pair'][3]
+            print payment_info['source_currency'] 
         else:
-            payment_info['dest_currency'] = payment_info['currency_pair'][:3]
+            payment_info['dest_currency'] = payment_info['currency_pair'][3]
             payment_info['source_currency'] = payment_info['currency_pair'][:3]
         #payment_info['email_out'] = self.emailout
         return payment_info
                 
-params = {  'amount_in':5, 
+params = {  'amount_in':5,
+            'amount_out':None,
             'currency_pair':'dogebtc',
+            'source_currency':'doge',
             'source_address':'1234',
             'receiving_address':'DHNMLUAdasGXizBYfXfGQsSo63sPR1dr1r',
             'destination_address':4321, 
